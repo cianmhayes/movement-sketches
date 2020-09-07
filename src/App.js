@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,7 +6,6 @@ import {
   Link
 } from "react-router-dom";
 import Sketch from "react-p5";
-import { setTensorTracker } from '@tensorflow/tfjs-core/dist/tensor';
 import * as posenet from '@tensorflow-models/posenet';
 
 import PoseSource from './components/pose_source';
@@ -49,11 +48,11 @@ class ProcesingTest extends React.Component {
     }
 
     p5.strokeWeight(7);
-    for (var i = 0; i < this.currentPose.keypoints.length; i++) {
-      if (this.currentPose.keypoints[i].score > 0.4) {
+    for (var j = 0; j < this.currentPose.keypoints.length; j++) {
+      if (this.currentPose.keypoints[j].score > 0.4) {
         p5.point(
-          this.currentPose.keypoints[i].position.x * this.processingScale,
-          this.currentPose.keypoints[i].position.y * this.processingScale);
+          this.currentPose.keypoints[j].position.x * this.processingScale,
+          this.currentPose.keypoints[j].position.y * this.processingScale);
       }
     }
 

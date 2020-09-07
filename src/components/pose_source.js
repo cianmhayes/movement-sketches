@@ -1,6 +1,5 @@
-import React, { useImperativeHandle } from 'react';
+import React from 'react';
 import * as posenet from '@tensorflow-models/posenet';
-import * as tf from '@tensorflow/tfjs';
 
 class PoseSource extends React.Component {
     constructor(props) {
@@ -93,10 +92,10 @@ class PoseSource extends React.Component {
             }
           }
           const adjacentKeyPoints = posenet.getAdjacentKeyPoints(pose.keypoints, 0.4);
-          for(var i = 0; i < adjacentKeyPoints.length; i++){
+          for(var j = 0; j < adjacentKeyPoints.length; j++){
             this.outputCanvasContext.beginPath();
-            this.outputCanvasContext.moveTo(adjacentKeyPoints[i][0].position.x, adjacentKeyPoints[i][0].position.y);
-            this.outputCanvasContext.lineTo(adjacentKeyPoints[i][1].position.x, adjacentKeyPoints[i][1].position.y);
+            this.outputCanvasContext.moveTo(adjacentKeyPoints[j][0].position.x, adjacentKeyPoints[j][0].position.y);
+            this.outputCanvasContext.lineTo(adjacentKeyPoints[j][1].position.x, adjacentKeyPoints[j][1].position.y);
             this.outputCanvasContext.lineWidth = 2;
             this.outputCanvasContext.strokeStyle = "aqua";
             this.outputCanvasContext.stroke();
