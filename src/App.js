@@ -28,7 +28,7 @@ class ProcesingTest extends React.Component {
   }
 
   p5Setup(p5, canvasParentRef) {
-    p5.createCanvas(700 * this.processingScale, 700 * this.processingScale).parent(canvasParentRef);
+    p5.createCanvas(this.props.videoWidth * this.processingScale, this.props.videoHeight * this.processingScale).parent(canvasParentRef);
   }
 
   p5Draw(p5) {
@@ -65,7 +65,8 @@ class ProcesingTest extends React.Component {
           showVideo={this.props.showVideo ? this.props.showVideo : false}
           markupVideo={this.props.showVideo ? this.props.showVideo : false}
           flipHorizontal
-          videoWidth={700}
+          videoWidth={this.props.videoWidth}
+          videoHeight={this.props.videoHeight}
           onPoseUpdated={this.notifyNewPose} />
         <Sketch setup={this.p5Setup} draw={this.p5Draw} />
       </div>);
@@ -80,10 +81,10 @@ function App() {
       <Router>
         <Switch>
           <Route path="/basic-with-video">
-            <ProcesingTest showVideo/>
+            <ProcesingTest showVideo videoWidth={1050} videoHeight={700}/>
           </Route>
           <Route path="/basic-without-video">
-          <ProcesingTest processingScale={2}/>
+            <ProcesingTest videoWidth={1050} videoHeight={700} processingScale={2}/>
           </Route>
           <Route path="/">
             <p>

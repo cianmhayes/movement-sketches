@@ -56,6 +56,11 @@ class PoseSource extends React.Component {
         this.outputCanvas.height = this.videoHeight;
         this.outputCanvasContext = this.outputCanvas.getContext("2d");
       }
+      else{
+        this.outputCanvas = document.getElementById("videoOutput");
+        this.outputCanvas.width = 0;
+        this.outputCanvas.height = 0;
+      }
   
       this.setState({ running: true });
     }
