@@ -86,13 +86,13 @@ class Boids extends React.Component {
 
     this.normalize = this.normalize.bind(this);
     this.boids = [];
-    this.alignmentWeight = 0.1;
-    this.cohesionWeight = 0.05;
-    this.attractionWeight = 1;
-    this.separationWeight = 0.1;
-    this.minNeighborDistance = 5;
+    this.alignmentWeight = 1.5;
+    this.cohesionWeight = 0.5;
+    this.separationWeight = 0.6;
+    this.minNeighborDistance = 200;
     this.boidCount = 500;
-    this.leaderPercentage = 0.1;
+    this.leaderPercentage = 0.2;
+    this.wrapAround = true;
   }
 
   p5Setup(p5, canvasParentRef) {
@@ -155,6 +155,7 @@ class Boids extends React.Component {
         vx: 0.0,
         vy: 0.0
       }]) {
+    var minNeighborDistance = this.minNeighborDistance;
     var avoidance = otherBoids.reduce(
       function (
         acc = {
@@ -172,7 +173,7 @@ class Boids extends React.Component {
         var dx = cv.x - targetBoid.x;
         var dy = cv.y - targetBoid.y;
         var distance = Math.sqrt((dx * dx) + (dy * dy));
-        if (distance < 10 && cv.id !== targetBoid.id) {
+        if (distance < minNeighborDistance && cv.id !== targetBoid.id) {
           return {
             totalDX: acc.totalDX - dx,
             totalDY: acc.totalDY - dx,
@@ -253,15 +254,30 @@ class Boids extends React.Component {
           return { dx: (acc.dx + cv.dx), dy: (acc.dy + cv.dy) };
         },
         { dx: 0.0, dy: 0.0 });
-      this.boids[i].vx += velocityUpdate.dx;
-      this.boids[i].vy += velocityUpdate.dy;
+      
+      velocityUpdate = this.normalize(velocityUpdate.dx, velocityUpdate.dy, 3);
 
-      var norm = Math.sqrt((this.boids[i].vx * this.boids[i].vx) + (this.boids[i].vy * this.boids[i].vy));
-      this.boids[i].vx = this.boids[i].vx / norm;
-      this.boids[i].vy = this.boids[i].vy / norm;
+      this.boids[i].vx = (0.5 * this.boids[i].vx) + (0.5 * velocityUpdate.dx);
+      this.boids[i].vy = (0.5 * this.boids[i].vy) + (0.5 * velocityUpdate.dy);
+
+      //var norm = Math.sqrt((this.boids[i].vx * this.boids[i].vx) + (this.boids[i].vy * this.boids[i].vy));
+      //this.boids[i].vx = this.boids[i].vx / norm;
+      //this.boids[i].vy = this.boids[i].vy / norm;
 
       this.boids[i].x += this.boids[i].vx;
       this.boids[i].y += this.boids[i].vy;
+
+      if (this.wrapAround) {
+        if (this.boids[i].x < 0) {
+          this.boids[i].x += this.props.width;
+        }
+        this.boids[i].x = this.boids[i].x % this.props.width;
+
+        if (this.boids[i].y < 0) {
+          this.boids[i].y += this.props.height;
+        }
+        this.boids[i].y = this.boids[i].y % this.props.height;
+      }
 
     }
   }
