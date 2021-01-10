@@ -8,6 +8,8 @@ import {
 import Sketch from "react-p5";
 import * as posenet from '@tensorflow-models/posenet';
 
+import Boids from './boids';
+import ShapedBoids from './shaped_boids';
 import PoseSource from './components/pose_source';
 
 import './App.css';
@@ -55,7 +57,6 @@ class ProcesingTest extends React.Component {
           this.currentPose.keypoints[j].position.y * this.processingScale);
       }
     }
-
   }
 
   render() {
@@ -73,25 +74,35 @@ class ProcesingTest extends React.Component {
   }
 }
 
-
-
 function App() {
   return (
     <div className="App">
       <Router>
         <Switch>
           <Route path="/basic-with-video">
-            <ProcesingTest showVideo videoWidth={1050} videoHeight={700}/>
+            <ProcesingTest showVideo videoWidth={1050} videoHeight={700} />
           </Route>
           <Route path="/basic-without-video">
-            <ProcesingTest videoWidth={1050} videoHeight={700} processingScale={2}/>
+            <ProcesingTest videoWidth={1050} videoHeight={700} processingScale={2} />
+          </Route>
+          <Route path="/basic-boids">
+            <Boids width={1050} height={700} />
+          </Route>
+          <Route path="/shape-boids">
+            <ShapedBoids width={1050} height={700} />
           </Route>
           <Route path="/">
             <p>
-            <Link to="/basic-with-video">Basic visualization and source video together.</Link>
+              <Link to="/basic-with-video">Basic visualization and source video together.</Link>
             </p>
             <p>
-            <Link to="/basic-without-video">Basic visualization alone.</Link>
+              <Link to="/basic-without-video">Basic visualization alone.</Link>
+            </p>
+            <p>
+              <Link to="/basic-boids">Birds flocking.</Link>
+            </p>
+            <p>
+              <Link to="/shape-boids">Birds flocking with shapes.</Link>
             </p>
           </Route>
         </Switch>
