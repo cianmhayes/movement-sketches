@@ -235,11 +235,11 @@ class ShapedBoids extends React.Component {
     }
     console.log(`${focalX}, ${focalY}`)
 
-    for (var i = 0; i < this.boids.length; i++) {
-      var dx = this.boids[i].x - focalX;
-      var dy = this.boids[i].y - focalY;
+    for (var j = 0; j < this.boids.length; j++) {
+      var dx = this.boids[j].x - focalX;
+      var dy = this.boids[j].y - focalY;
       var distance = Math.sqrt((dx*dx)+(dy*dy));
-      this.boids[i].pheromoneDensity = Math.max((300 - distance) / 300, 0.0);
+      this.boids[j].pheromoneDensity = Math.max((300 - distance) / 300, 0.0);
     }
 
     for (var i = 0; i < this.boids.length; i++) {
